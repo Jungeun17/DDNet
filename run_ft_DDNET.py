@@ -305,10 +305,6 @@ def train(args, dataset, model, tokenizer):
                             segments=segments, person_ids=person_ids, subject_ids=subject_ids, loss1_e=loss1_e, loss2_p=loss2_p, loss3_i=loss3_i)
 
 
-            #ipdb.set_trace()
-            ###
-            #shift_labels2 = labels[..., 1:].contiguous() #add
-            #shift_labels2 = shift_labels2.view(-1) #add
             loss = criterion(outputs, shift_labels)
         
             #loss = outputs[0]  # model outputs are always tuple in pytorch-transformers (see doc)
@@ -325,7 +321,7 @@ def train(args, dataset, model, tokenizer):
                 with amp.scale_loss(loss, optimizer) as scaled_loss:
                     scaled_loss.backward()
             else:
-                loss.backward()   # need ?
+                loss.backward() 
 
             tr_loss += loss.item()
             if (step + 1) % args.gradient_accumulation_steps == 0:
